@@ -1,0 +1,5 @@
+{
+  "success": true,
+  "status": 200,
+  "text": "Artificial Intelligence (AI) is the field of computer science dedicated to creating systems capable of performing tasks that typically require human intelligence, such as learning, reasoning, and problem-solving."
+}

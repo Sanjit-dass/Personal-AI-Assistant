@@ -1,0 +1,4 @@
+Success: {
+  "ai_response": "Artificial Intelligence refers to the development of computer systems that can perform tasks typically requiring human intelligence, such as visual perception, speech recognition, decision-making, and language translation. AI systems use algorithms and data to make predictions, classify objects, and generate insights, with applications in areas like robotics, natural language processing, and expert systems.",
+   "topic": "Introduction to Artificial Intelligence"
+}
