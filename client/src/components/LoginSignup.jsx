@@ -82,8 +82,8 @@ function LoginSignup() {
 		setIsLoading(true);
 
 		const endpoint = isSignUp
-  ? `${API_URL}/api/v1/users/register`
-  : `${API_URL}/api/v1/users/login`;
+			? `${API_URL}/api/v1/users/register`
+			: `${API_URL}/api/v1/users/login`;
 
 		const body = isSignUp
 			? {
@@ -111,10 +111,21 @@ function LoginSignup() {
 				return;
 			}
 
-			// ✅ BOTH SIGNUP & LOGIN → OTP PAGE
-			navigate(`/otpVerification/${formData.email}`);
 
-		} catch (error) {
+			// Login successful
+			console.log("Login/Signup Response Data:", data);
+
+			// The backend returns { data: userObject, message: ..., statusCode: ... }
+			// Dispatch login action with user data
+			if (data.data) {
+				dispatch(authLogin(data.data));
+			} else {
+				// Fallback if data structure is unexpected (though backend returns .data)
+				dispatch(authLogin(data));
+			}
+
+			navigate("/");
+
 			console.error("Error submitting form:", error);
 			setErrors({ general: "Network error. Please try again." });
 		} finally {

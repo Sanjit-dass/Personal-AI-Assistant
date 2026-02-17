@@ -3,8 +3,6 @@ import ApiError from "../utils/ApiError.js"
 import ApiResponse from "../utils/ApiResponse.js"
 import { User } from "../models/user.models.js";
 import { accessTokenOptions, refreshTokenOptions } from "../constants.js"
-import { sendOtpMail } from "../utils/mailsender.js";
-import { OtpSchema } from "../models/otp.model.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 const generateAccessAndRefreshTokens = async (userId) => {
@@ -24,10 +22,11 @@ const generateAccessAndRefreshTokens = async (userId) => {
 };
 
 
+
 const registerUser = asyncHandler(async (req, res) => {
     const { email, name, password } = req.body;
-    console.log(req.body)
-    console.log(email, name, password)
+    // console.log(req.body)
+    // console.log(email, name, password)
     if (!email || !password || !name) {
         throw new ApiError(404, "Missing Credentials");
     }
@@ -48,27 +47,6 @@ const registerUser = asyncHandler(async (req, res) => {
     const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(user._id);
     const finalUser = await User.findById(user._id)
         .select("email")
-
-
-
-    // res.send(201).json(new ApiResponse(201,{},"Otp Sent"))
-    const otp = Math.floor(100000 + Math.random() * 900000);
-    // Send OTP email (non-blocking, won't crash if email fails)
-    sendOtpMail(email, otp).catch(err => {
-        console.error("Failed to send OTP email:", err.message);
-    });
-
-    const otpData = await OtpSchema.create({
-        email,
-        otp: String(otp),
-    })
-
-    if (!otpData) {
-        throw new ApiError(300, "Error creation of otp")
-    }
-
-
-
 
     return res
         .status(201)
@@ -93,21 +71,16 @@ const loginUser = asyncHandler(async (req, res) => {
         throw new ApiError(403, "Invalid credentials");
     }
 
-    // Login step 1: password verified -> send OTP to email (do not issue tokens yet)
-    const otp = Math.floor(100000 + Math.random() * 900000);
-    await OtpSchema.findOneAndUpdate(
-        { email },
-        { $set: { otp: String(otp) } },
-        { upsert: true, new: true }
-    );
-    sendOtpMail(email, otp).catch((err) => {
-        console.error("Failed to send login OTP email:", err.message);
-    });
+    const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(user._id);
+    const finalUser = await User.findById(user._id).select("-password -refreshToken");
 
     return res
         .status(200)
-        .json(new ApiResponse(200, { email }, "OTP sent to email. Verify OTP to complete login."));
+        .cookie("accessToken", accessToken, accessTokenOptions)
+        .cookie("refreshToken", refreshToken, refreshTokenOptions)
+        .json(new ApiResponse(200, finalUser, "User Login Success"));
 });
+
 
 
 const registerWithGoogle = asyncHandler(async (req, res) => {

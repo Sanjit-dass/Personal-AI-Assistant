@@ -16,7 +16,6 @@ import Youtube from './pages/Youtube.jsx'
 import LoginSignup from './components/LoginSignup.jsx'
 import Dashboard from './pages/Home.jsx'
 import UserSettings from './pages/UserSettings.jsx'
-import OtpVerification from './components/OtpVerification.jsx'
 import theme from './theme.js'
 
 
@@ -61,10 +60,7 @@ const router = createBrowserRouter([
         path: "/authentication/:type",
         element: <LoginSignup />
       },
-      {
-        path: "/otpVerification/:email",
-        element: <OtpVerification />
-      },
+      // OtpVerification route removed
     ]
   }
 ])
