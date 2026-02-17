@@ -44,6 +44,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { logout } from '../store/authSlice';
 
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+
 export default function Navbar() {
     const { isOpen, onToggle, onClose } = useDisclosure();
     const { colorMode, toggleColorMode } = useColorMode();
@@ -59,7 +61,7 @@ export default function Navbar() {
 
     const handleLogout = async () => {
         try {
-            const res = await fetch('http://localhost:8000/api/v1/users/logout', {
+            const res = await fetch(`${API_URL}/api/v1/users/logout`, {
                 method: 'POST',
                 credentials: 'include',
             });

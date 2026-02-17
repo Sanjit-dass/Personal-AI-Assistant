@@ -23,6 +23,9 @@ import {
 import { FaBook, FaSearch, FaExternalLinkAlt, FaGlobeAmericas } from "react-icons/fa";
 import { useSelector } from "react-redux";
 
+
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+
 function Wikipedia() {
 	const topics = useSelector((state) => state.chatTopic.topics);
 	const [selectedTopic, setSelectedTopic] = useState("");
@@ -50,7 +53,7 @@ function Wikipedia() {
 			setLoading(true); // Start loading
 			try {
 				const response = await fetch(
-					`http://localhost:8000/api/v1/wikipedia/search?query=${encodeURIComponent(query)}`,
+					`${API_URL}/api/v1/wikipedia/search?query=${encodeURIComponent(query)}`,
 					{
 						credentials: 'include'
 					}

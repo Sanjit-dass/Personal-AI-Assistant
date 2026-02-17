@@ -145,7 +145,7 @@ export default function Footer() {
                     spacing={4}
                     justify={{ base: 'center', md: 'center' }} // Centered for cleaner look or space-between
                     align={{ base: 'center', md: 'center' }}>
-                    <Text fontSize="sm">© {new Date().getFullYear()} PAT. All rights reserved.</Text>
+                    <Text fontSize="sm">© {new Date().getFullYear()} PAT. All rights reserved. Crafted by <Link href="https://portfolio-sanjit-git-main-sanjit9842-gmailcoms-projects.vercel.app/?fbclid=IwY2xjawQA4mlleHRuA2FlbQIxMABicmlkETJuSDMzbEF2b1JRRGY3YTBNc3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHhjceMYFySbrej4n04ITrishz1kgitRC7ipedg5PjRWFBOWshwZKrhO-dDAC_aem_Y623Vzi1TfEuSAnYFKigUw" isExternal color="teal.500" fontWeight="bold">Sanjit Das</Link></Text>
                 </Container>
             </Box>
         </Box>

@@ -13,6 +13,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login as authLogin } from "../store/authSlice.js";
 
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+
 export default function OtpVerification() {
 	const { email } = useParams();
 	const dispatch = useDispatch();
@@ -52,7 +54,7 @@ export default function OtpVerification() {
 		const completeOtp = otp.join("");
 
 		try {
-			const response = await fetch("http://localhost:8000/api/v1/users/verifyOTP", {
+			const response = await fetch(`${API_URL}/api/v1/users/verifyOTP`, {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({ otp: completeOtp, email }),

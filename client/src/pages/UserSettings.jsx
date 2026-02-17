@@ -30,6 +30,7 @@ import { FaHistory, FaUserEdit, FaSignOutAlt, FaCog, FaBell, FaLock } from "reac
 import { useNavigate } from "react-router-dom";
 
 function UserSettings() {
+	const API_URL = import.meta.env.VITE_API_URL;
 	const user = useSelector((state) => state.authSlice.userData);
 	const history = useSelector((state) => state.chatTopic.topics);
 	const status = useSelector((state) => state.authSlice.status); // Assuming authSlice has status
@@ -66,13 +67,11 @@ function UserSettings() {
 	const handleLogout = async () => {
 		setIsLoggingOut(true);
 		try {
-			const res = await fetch(
-				"http://localhost:8000/api/v1/users/logout",
-				{
-					method: "POST",
-					credentials: "include",
-				}
-			);
+			const res = await fetch(`${API_URL}/api/v1/users/logout`, {
+	method: "POST",
+	credentials: "include",
+});
+
 			if (!res.ok) {
 				throw new Error("Getting problem while logging out");
 			}
@@ -126,14 +125,12 @@ function UserSettings() {
 	const handleSaveProfile = async () => {
 		setIsSaving(true);
 		try {
-			const res = await fetch("http://localhost:8000/api/v1/users/update-account", {
-				method: "PATCH",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				credentials: "include",
-				body: JSON.stringify(formData),
-			});
+			const res = await fetch(`${API_URL}/api/v1/users/update-account`, {
+	method: "PATCH",
+	headers: { "Content-Type": "application/json" },
+	credentials: "include",
+	body: JSON.stringify(formData),
+});
 
 			if (!res.ok) {
 				const errorData = await res.json();

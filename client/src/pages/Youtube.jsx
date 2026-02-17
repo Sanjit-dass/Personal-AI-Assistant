@@ -21,6 +21,8 @@ import {
 import { FaYoutube, FaSearch, FaPlayCircle } from "react-icons/fa";
 import { useSelector } from "react-redux";
 
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+
 const YouTube = () => {
 	const [topic, setTopic] = useState("");
 	const [customQuery, setCustomQuery] = useState("");
@@ -48,7 +50,7 @@ const YouTube = () => {
 			setLoading(true);
 			try {
 				const response = await fetch(
-					`http://localhost:8000/api/v1/youtube/search?query=${encodeURIComponent(query + " education")}`,
+					`${API_URL}/api/v1/youtube/search?query=${encodeURIComponent(query + " education")}`,
 					{
 						credentials: 'include'
 					}

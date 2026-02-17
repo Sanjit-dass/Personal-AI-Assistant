@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+const API_URL = import.meta.env.VITE_API_URL;
 import {
 	Box,
 	VStack,
@@ -142,17 +143,17 @@ function ChatBox() {
 		setBotTyping(true);
 
 		try {
-			const response = await fetch(
-				"http://localhost:8000/api/v1/chat/getResponse",
-				{
-					method: "POST",
-					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({
-						question: "Describe and teach about " + input,
-					}),
-					credentials: "include",
-				}
-			);
+	
+
+const response = await fetch(`${API_URL}/api/v1/chat/getResponse`, {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    question: "Describe and teach about " + input,
+  }),
+  credentials: "include",
+});
+
 
 			const data = await response.json();
 

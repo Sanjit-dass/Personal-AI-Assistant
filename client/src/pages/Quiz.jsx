@@ -18,6 +18,7 @@ import {
 } from "@chakra-ui/react";
 import { FaTrophy, FaRedo, FaBrain, FaCheckCircle, FaTimesCircle, FaPlay } from "react-icons/fa";
 import { useSelector } from "react-redux";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
 function Quiz() {
 	const [topic, setTopic] = useState("");
@@ -53,15 +54,12 @@ function Quiz() {
 		setScore(0);
 
 		try {
-			const response = await fetch(
-				"http://localhost:8000/api/v1/chat/generateQuestions",
-				{
-					method: "POST",
-					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({ topics: [topic] }),
-					credentials: 'include'
-				}
-			);
+			const response = await fetch(`${API_URL}/api/v1/chat/generateQuestions`, {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ topics: [topic] }),
+				credentials: "include"
+			});
 
 			if (!response.ok)
 				throw new Error(`HTTP error! Status: ${response.status}`);
@@ -78,7 +76,7 @@ function Quiz() {
 		} catch (error) {
 			console.error("Error fetching AI questions:", error);
 			let errorMsg = "Failed to fetch questions.";
-			
+
 			if (error.message?.includes("429")) {
 				errorMsg = "API quota exceeded. Wait 24 hours before trying again.";
 			} else if (error.message?.includes("404")) {
@@ -86,7 +84,7 @@ function Quiz() {
 			} else if (error.message?.includes("Failed to fetch")) {
 				errorMsg = "Server is offline. Ensure backend is running on port 8000.";
 			}
-			
+
 			toast({ title: "Error", description: errorMsg, status: "error", duration: 5 });
 		} finally {
 			setLoading(false);

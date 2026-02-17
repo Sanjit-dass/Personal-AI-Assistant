@@ -7,6 +7,8 @@ import ErrorBoundary from './components/ErrorBoundary'
 import { ColorModeSwitcher } from './components/ColorModeSwitcher'
 import Layout from './components/Layout'
 
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+
 function App() {
 
   const dispatch = useDispatch()
@@ -14,7 +16,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchCurrent = async () => {
-    const res = await fetch('http://localhost:8000/api/v1/users/getCurrentUser',
+    const res = await fetch(`${API_URL}/api/v1/users/getCurrentUser`,
       {
         method: 'GET',
         credentials: 'include',
