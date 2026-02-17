@@ -5,16 +5,6 @@ import cors from "cors";
 
 const app = express();
 
-app.use(express.json());
-app.use(cookieParser());
-
-
-app.get('/', (req, res) => {
-    res.send("Hi this site is working")
-})
-
-
-
 app.use(
     cors({
         origin: [
@@ -26,6 +16,27 @@ app.use(
         allowedHeaders: ["Content-Type", "Authorization"]
     })
 );
+
+app.options('*', cors({
+    origin: [
+        "http://localhost:5173",
+        "https://personal-ai-assistant-rho.vercel.app"
+    ],
+    credentials: true
+}));
+ // Enable pre-flight across-the-board
+
+app.use(express.json());
+app.use(cookieParser());
+
+
+app.get('/', (req, res) => {
+    res.send("Hi this site is working")
+})
+
+
+
+
 
 // setting up routes
 
